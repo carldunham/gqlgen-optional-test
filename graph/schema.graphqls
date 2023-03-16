@@ -1,0 +1,13 @@
+directive @goField(
+	forceResolver: Boolean
+	name: String
+  optional: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+input FooInput {
+  text: String @goField(optional: true)
+}
+
+type Query {
+  foo(input: FooInput!): String!
+}
