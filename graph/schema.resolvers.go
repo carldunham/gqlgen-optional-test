@@ -6,22 +6,13 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
-	model1 "github.com/Desuuuu/gqlgen-optional-test/graph/model"
+	"github.com/Desuuuu/gqlgen-optional-test/graph/model"
 )
 
 // Foo is the resolver for the foo field.
-func (r *queryResolver) Foo(ctx context.Context, input model1.FooInput) (string, error) {
-	if !input.Text.Defined {
-		return "text is undefined", nil
-	}
-
-	if input.Text.Value == nil {
-		return "text is nil", nil
-	}
-
-	return fmt.Sprintf("text is %q", *input.Text.Value), nil
+func (r *queryResolver) Foo(ctx context.Context, input model.FooInput) (string, error) {
+	return input.String(), nil
 }
 
 // Query returns QueryResolver implementation.

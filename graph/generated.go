@@ -88,6 +88,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputBarInput,
+		ec.unmarshalInputBazInput,
 		ec.unmarshalInputFooInput,
 	)
 	first := true
@@ -2178,6 +2180,73 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputBarInput(ctx context.Context, obj interface{}) (model.BarInput, error) {
+	var it model.BarInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"count", "baz"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "count":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("count"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Count = graphql.OptionalOf(data)
+		case "baz":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("baz"))
+			data, err := ec.unmarshalOBazInput2ᚖgithubᚗcomᚋDesuuuuᚋgqlgenᚑoptionalᚑtestᚋgraphᚋmodelᚐBazInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Baz = graphql.OptionalOf(data)
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputBazInput(ctx context.Context, obj interface{}) (model.BazInput, error) {
+	var it model.BazInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"isSomething"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "isSomething":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isSomething"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsSomething = graphql.OptionalOf(data)
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputFooInput(ctx context.Context, obj interface{}) (model.FooInput, error) {
 	var it model.FooInput
 	asMap := map[string]interface{}{}
@@ -2185,7 +2254,7 @@ func (ec *executionContext) unmarshalInputFooInput(ctx context.Context, obj inte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"text"}
+	fieldsInOrder := [...]string{"text", "bar"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -2201,6 +2270,15 @@ func (ec *executionContext) unmarshalInputFooInput(ctx context.Context, obj inte
 				return it, err
 			}
 			it.Text = graphql.OptionalOf(data)
+		case "bar":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("bar"))
+			data, err := ec.unmarshalOBarInput2ᚖgithubᚗcomᚋDesuuuuᚋgqlgenᚑoptionalᚑtestᚋgraphᚋmodelᚐBarInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Bar = graphql.OptionalOf(data)
 		}
 	}
 
@@ -2886,6 +2964,22 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) unmarshalOBarInput2ᚖgithubᚗcomᚋDesuuuuᚋgqlgenᚑoptionalᚑtestᚋgraphᚋmodelᚐBarInput(ctx context.Context, v interface{}) (*model.BarInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputBarInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOBazInput2ᚖgithubᚗcomᚋDesuuuuᚋgqlgenᚑoptionalᚑtestᚋgraphᚋmodelᚐBazInput(ctx context.Context, v interface{}) (*model.BazInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputBazInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -2909,6 +3003,22 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	res := graphql.MarshalBoolean(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalInt(*v)
 	return res
 }
 

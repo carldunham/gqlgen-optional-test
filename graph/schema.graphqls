@@ -1,11 +1,21 @@
 directive @goField(
-	forceResolver: Boolean
-	name: String
+  forceResolver: Boolean
+  name: String
   optional: Boolean
 ) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 input FooInput {
   text: String @goField(optional: true)
+  bar: BarInput @goField(optional: true)
+}
+
+input BarInput {
+  count: Int @goField(optional: true)
+  baz: BazInput @goField(optional: true)
+}
+
+input BazInput {
+  isSomething: Boolean @goField(optional: true)
 }
 
 type Query {

@@ -6,6 +6,16 @@ import (
 	"github.com/99designs/gqlgen/graphql"
 )
 
+type BarInput struct {
+	Count graphql.Optional[*int]      `json:"count,omitempty"`
+	Baz   graphql.Optional[*BazInput] `json:"baz,omitempty"`
+}
+
+type BazInput struct {
+	IsSomething graphql.Optional[*bool] `json:"isSomething,omitempty"`
+}
+
 type FooInput struct {
-	Text graphql.Optional[*string] `json:"text,omitempty"`
+	Text graphql.Optional[*string]   `json:"text,omitempty"`
+	Bar  graphql.Optional[*BarInput] `json:"bar,omitempty"`
 }
