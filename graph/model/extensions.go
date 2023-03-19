@@ -3,41 +3,58 @@ package model
 import "fmt"
 
 func (input *FooInput) String() string {
-	bar := input.Bar.String()
+	if input == nil {
+		return "foo is null"
+	}
+
+	bar := "foo.bar was not provided"
+	if input.Bar.Defined {
+		bar = input.Bar.Value.String()
+	}
 
 	if !input.Text.Defined {
-		return "text was not provided, " + bar
+		return "foo.text was not provided, " + bar
 	}
 
 	if input.Text.Value == nil {
-		return "text is null, " + bar
+		return "foo.text is null, " + bar
 	}
 
-	return fmt.Sprintf("text is %q, %s", *input.Text.Value, bar)
+	return fmt.Sprintf("foo.text is %q, %s", *input.Text.Value, bar)
 }
 
 func (input *BarInput) String() string {
-	baz := input.Baz.String()
+	if input == nil {
+		return "foo.bar is null"
+	}
+
+	baz := "foo.bar.baz was not provided"
+	if input.Baz.Defined {
+		baz = input.Baz.Value.String()
+	}
 
 	if !input.Count.Defined {
-		return "count was not provided, " + baz
+		return "foo.bar.count was not provided, " + baz
 	}
 
 	if input.Count.Value == nil {
-		return "count is null, " + baz
+		return "foo.bar.count is null, " + baz
 	}
 
-	return fmt.Sprintf("count is %d, %s", *input.Count.Value, baz)
+	return fmt.Sprintf("foo.bar.count is %d, %s", *input.Count.Value, baz)
 }
 
 func (input *BazInput) String() string {
+	if input == nil {
+		return "foo.bar.baz is null"
+	}
 	if !input.IsSomething.Defined {
-		return "isSomething was not provided"
+		return "foo.bar.baz.isSomething was not provided"
 	}
 
 	if input.IsSomething.Value == nil {
-		return "isSomething is null"
+		return "foo.bar.baz.isSomething is null"
 	}
 
-	return fmt.Sprintf("isSomething is %t", *input.IsSomething.Value)
+	return fmt.Sprintf("foo.bar.baz.isSomething is %t", *input.IsSomething.Value)
 }
